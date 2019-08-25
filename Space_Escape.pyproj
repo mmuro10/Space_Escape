@@ -24,6 +24,9 @@
     <Compile Include="listing1-4.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="listing2-1.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Space_Escape.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
