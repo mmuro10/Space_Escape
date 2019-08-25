@@ -2,6 +2,7 @@
 #Space_Escape
 #by Sean McManus
 #www.sean.co.uk / www.nostarch.com
+#This is a test
 
 WIDTH = 800
 HEIGHT = 600
