@@ -27,7 +27,16 @@
     <Compile Include="listing2-1.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="listings\listing3-4.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="listings\listing3-5.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Space_Escape.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="listings\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
