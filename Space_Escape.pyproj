@@ -27,9 +27,6 @@
     <Compile Include="listings\listing3-5.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="listings\listing4-3-1.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="listings\listing5-4.py">
       <SubType>Code</SubType>
     </Compile>

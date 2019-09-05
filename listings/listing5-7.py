@@ -22,6 +22,10 @@ top_left_y = 150
 
 DEMO_OBJECTS = [images.floor, images.pillar, images.soil]
 
+LANDER_SECTOR = random.randint(1,24)
+LANDER_X = random.randint(2,11)
+LANDER_Y = random.randint(2,11)
+
 #########
 ## MAP ##
 #########
@@ -67,6 +71,26 @@ GAME_MAP += [
 #Simple sanity check on map above to check data entry
 assert len(GAME_MAP)-1 == MAP_SIZE, "Mape size and GAME_MAP don't match"
 
+#############
+## Objects ##
+#############
+
+objects = {
+    0:[images.floor, None, "The floor is shiny and clean"],
+    1:[images.pillar, images.full_shadow, "The wall is smooth and cold"],
+    2:[images.soil, None, "It's like a desert. Or should that be dessert?"],
+    3:[images.pillar_low, images.half_shadow, "The wall is sooth and cold"],
+    4:[images.bed, images.half_shadow, "A tidy and comfortable bed"],
+    5:[images.table, images.half_shadow, "It's made from strong plastic"],
+    6:[images.chair_left, None, "A chair with a soft cushion"],
+    7:[images.chair_right, None, "A chair with a soft cushion"],
+    8:[images.bookcase_tall, images.full_shadow, "Bookshelves, stacked with refrence books"],
+    9:[images.bookcase_small, images.half_shadow, "Bookshelves, stacked with reference books"],
+    10:[images.cabinet, images.half_shadow, "A small locker, for storing personal items"],
+    11:[images.desk_computer, images.half_shadow, "A computer. Use it to run life support diagnostics"],
+    12:[images.plant, images.plant_shadow, "a spaceberry plant, grown here"]
+    }
+
 ##############
 ## MAKE MAP ##
 ##############
@@ -75,11 +99,11 @@ def get_floor_type():
     if current_room in outdoor_rooms:
         return 2 # soil
     else:
-        return 0 # tiled floor       
+        return 0 # tiled floor
 
 def generate_map():
-# This function makes the map for the current room,
-# using room data, scenery data and prop data.
+##This function makes the map for the current room,
+#Using room, data, scenery data and prop data
     global room_map, room_width, room_height, room_name, hazard_map
     global top_left_x, top_left_y, wall_transparency_frame
     room_data = GAME_MAP[current_room]
@@ -89,7 +113,7 @@ def generate_map():
 
     floor_type = get_floor_type()
     if current_room in range(1, 21):
-        bottom_edge = 2 #soil
+        bottom_edge = 2 #soil 
         side_edge = 2 #soil
     if current_room in range(21, 26):
         bottom_edge = 1 #wall
@@ -98,42 +122,42 @@ def generate_map():
         bottom_edge = 1 #wall
         side_edge = 1 #wall
 
-    # Create top line of room map.
+    #Create top line of room map.
     room_map=[[side_edge] * room_width]
-    # Add middle lines of room map (wall, floor to fill width, wall).
-    for y in range(room_height - 2):
-        room_map.append([side_edge]
-                        + [floor_type]*(room_width - 2) + [side_edge])
-    # Add bottom line of room map.
+    #Add middle lines of room map(wall, floor to fill width, wall)
+    for y in range(room_height -2):
+        room_map.append([side_edge]+[floor_type]*(room_width - 2) +[side_edge])
+
+    #Add bottom line of room map
     room_map.append([bottom_edge] * room_width)
 
-    # Add doorways.
+    #Add door ways
     middle_row = int(room_height / 2)
     middle_column = int(room_width / 2)
 
-    if room_data[4]: # If exit at right of this room
-        room_map[middle_row][room_width - 1] = floor_type
-        room_map[middle_row+1][room_width - 1] = floor_type
-        room_map[middle_row-1][room_width - 1] = floor_type
+    if room_data[4]: #If exit at right of this room
+        room_map[middle_row][room_width -1]=floor_type
+        room_map[middle_row+1][room_width -1]=floor_type
+        room_map[middle_row-1][room_width -1]=floor_type
 
-    if current_room % MAP_WIDTH != 1: # If room is not on left of map
+    if current_room % MAP_WIDTH != 1: #If room is not on left of map
         room_to_left = GAME_MAP[current_room - 1]
-        # If room on the left has a right exit, add left exit in this room
-        if room_to_left[4]: 
-            room_map[middle_row][0] = floor_type 
-            room_map[middle_row + 1][0] = floor_type
-            room_map[middle_row - 1][0] = floor_type
+        #if room on the left has right exit, add left exit in this room
+        if room_to_left[4]:
+            room_map[middle_row][0]=floor_type
+            room_map[middle_row+1][0]=floor_type
+            room_map[middle_row-1][0]=floor_type
 
-    if room_data[3]: # If exit at top of this room
+    if room_data[3]: #if exit at top of this room
         room_map[0][middle_column] = floor_type
         room_map[0][middle_column + 1] = floor_type
         room_map[0][middle_column - 1] = floor_type
 
-    if current_room <= MAP_SIZE - MAP_WIDTH: # If room is not on bottom row
-        room_below = GAME_MAP[current_room+MAP_WIDTH]
-        # If room below has a top exit, add exit at bottom of this one
-        if room_below[3]: 
-            room_map[room_height-1][middle_column] = floor_type 
+    if current_room <= MAP_SIZE - MAP_WIDTH: #if room is not on bottome row
+        room_below = GAME_MAP[current_room + MAP_WIDTH]
+        #If room below has a top exit, add exit at bottom of this one
+        if room_below[3]:
+            room_map[room_height-1][middle_column] = floor_type
             room_map[room_height-1][middle_column + 1] = floor_type
             room_map[room_height-1][middle_column - 1] = floor_type
 
@@ -145,10 +169,16 @@ def draw():
     global room_height,room_width,room_map
     generate_map()
     screen.clear()
+    room_map[2][4] = 7
+    room_map[2][6] = 6
+    room_map[1][1] = 8
+    room_map[1][2] = 9
+    room_map[1][8] = 12
+    room_map[1][9] = 9
 
     for y in range(room_height):
         for x in range(room_width):
-            image_to_draw = DEMO_OBJECTS[room_map[y][x]]
+            image_to_draw = objects[room_map[y][x]][0]
             screen.blit(image_to_draw,(top_left_x + (x*30), top_left_y + (y*30) - image_to_draw.get_height()))
 
 def movement():
@@ -162,7 +192,7 @@ def movement():
     if keyboard.up:
         current_room -= MAP_WIDTH
     if keyboard.down:
-        current_room += Map_WIDTH
+        current_room += MAP_WIDTH
 
     if current_room > 50:
         current_room = 50
